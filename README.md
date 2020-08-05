@@ -3,10 +3,22 @@
 This repsoitory holds the tools for the simulation and analysis of scintillation light production in LArTPCs, with all default settings corresponding
 to the DUNE near detector.
 
-
-__Running the Simulation__
+__Preparing the Enviornment and Inputs__
 
 Make sure your enviornment has available root, numpy, and scikit-learn. All of these packages are available in conda through the conda-forge channel.
+
+The simulation requires input from a ROOT file which has the following:
+A TTree object named "tree" with the following branches:
+-voxx, voxy, voxz: Each leaf should be an array of floats holding the x,y,z coordinates of voxelized energy deposits
+-voxe: Each leaf should be an array of floats where the nth entry corresponds to the energy deposited at the point (voxx[n], voxy[n], voxz[n])
+-vox_dedx: same as voxe except contains the de/dx of the particle depositing energy at the point
+-vtxx, vtxy, vtxz: each leaf is a float containing the vertex x,y,z for the whole event
+
+In scripts, the file "edepSimtoBare.py" can be used to convert an edep-sim output to the desired format above. 
+
+In the file do_sim.py, ensure the variable READ_FILE_NAME is set to the path to the ROOT file containing this tree.
+
+__Running the Simulation__
 
 The simulation is run with default settings by either passing passing the script do_sim.py to the python interpreter: 
 ( $ python do_sim.py ) 
